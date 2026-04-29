@@ -32,13 +32,13 @@ class Movie (Content):
         
         return clean_title, year
     def load_content(self):
-        movies_df = pd.read_csv("./books/Books.csv")
+        movies_df = pd.read_csv("./movies/movies.csv")
         
-        with open("./books/Books.csv", "r") as books_file:
-            pass
+        #with open("./movies/movies.csv", "r") as books_file:
+        #    pass
         # Apply extraction to create new columns
         movies_df[['title', 'release_year']] = movies_df.apply(
-            lambda x: pd.Series(self.extract_info(x)), axis=1
+            lambda x: pd.Series(self._extract_info(x)), axis=1
         )
         
         # 3. Convert genres string into a list of strings
@@ -46,7 +46,7 @@ class Movie (Content):
         
         # 4. Set movieId as the index and convert to a nested dictionary
         # 'index' orientation creates the {index: {column: value}} structure you need
-        content_dict = movies_df.set_index('movieId').to_dict(orient='index')
+        self.content_dict = movies_df.set_index('movieId').to_dict(orient='index')
 
 
 class Book (Content):
